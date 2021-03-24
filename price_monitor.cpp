@@ -28,9 +28,7 @@ float time_sec(string time_part){
 
                 stringstream geek2(time[2]);
                 float s=0;
-                geek2>>s;
-  
-		
+                geek2>>s;		
 		float t_present=(s+m*60+h*3600);
 		return t_present;
 
@@ -68,71 +66,49 @@ int main(){
                }
 	}
 
-int range=i;
-float t_present;
-m.push_back("0");
-for(int k=1;k<i;){
-	//auto last=m.rbegin();
-	//string str=token[k]
-	const bool is_in = find(m.begin(), m.end(),token[k]) != m.end();
-	if(is_in==1){
-		k=k+24;
-		continue;
-	}
-	else{
-	//	cout<<token[k]<<" "<<"k is "<<k<<" ";
-		m.push_back(token[k]);
-		for(int s=k-1;s<k+23;s++){
-			ob<<token[s];
-			ob<<",";
-		
+	int range=i;
+	float t_present;
+	m.push_back("0");
+	for(int k=1;k<i;){
+		const bool is_in = find(m.begin(), m.end(),token[k]) != m.end();
+		if(is_in==1){
+			k=k+24;
+			continue;
 		}
-		ob<<"\n";
-		t_prev=time_sec(token[k-1]);
-		t_present=time_sec(token[k-1]);
-		for(int l=k+24;l<range;){
-				//auto end=m.rbegin();
-				//string str1=token[l];
-                              //cout<<" nan "<<"l is "<<l<<endl;
-				//cout<<token[1]<<" "<<m.back()<<endl;
-				if(token[l]==m.back()){
-				//	cout<<" sai "<<"l is "<<l<<endl;
-					t_present=time_sec(token[l-1]);
-					//cout<<t_prev<<" "<<t_present<<endl;
-					if(t_present-t_prev>=1){
-						//ob<<"sai\n";
-						//cout<<token[l-1]<<" "<<token[l]<<" "<<endl;
+		else{
+			m.push_back(token[k]);
+			for(int s=k-1;s<k+23;s++){
+				ob<<token[s];
+				ob<<",";
+			
+			}
+			ob<<"\n";
+			t_prev=time_sec(token[k-1]);
+			t_present=time_sec(token[k-1]);
+			for(int l=k+24;l<range;){
+					if(token[l]==m.back()){
+						t_present=time_sec(token[l-1]);
+						if(t_present-t_prev>=1){
 						for(int t=l-1;t<l+23;t++){
-							ob<<token[t];
-							ob<<",";
+								ob<<token[t];
+								ob<<",";
+							}
+							ob<<"\n";
+							
 						}
-						ob<<"\n";
-						
 					}
-				}
-				else{
+					else{
+						l=l+24;
+						continue;	
+					}	
 					l=l+24;
-					continue;	
-				}	
-				l=l+24;
-				//cout<<t_prev<<" "<<t_present<<endl;
-				t_prev=t_present;
-				
+					t_prev=t_present;
+					
+			}
 		}
-	}
-	k=k+24;
-	cout<<endl;
-}
-/*list<string>::iterator it;
-
-for( it = m.begin(); it != m.end(); ++it)
-        cout << ' ' << *it;
-
-for(int k=1;k<i;k=k+24){
-cout<<token[k]<<" "<<k<<endl;
-}*/
-//cout<<m.size()<<" "<<m.back()<<endl;;
-    cout<<i<<" "<<j;
-        ob.close();
-        return 0;
-}
+		k=k+24;
+		cout<<endl;
+	}	
+ 	ob.close();
+ 	return 0;
+}		
