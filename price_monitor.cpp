@@ -23,6 +23,7 @@ void tokenizer(string const &str, const char delim,vector<string> &tokens)
 
     }
 }
+
 double time_sec(string time_part){
                 vector<string> time;
                 double test;
@@ -41,11 +42,14 @@ double time_sec(string time_part){
                 double t_present=h*3600+m*60+s;
                 sscanf(to_string(t_present).c_str(),"%12lf",&test);
                 return test;
-	}
+}
+
 int main(){
-        string FirstFile,output;
-        int j=0;
-        int count=0;
+        string FirstFile,output,myText,myText1;
+        int j=0,count=0,n;
+	double t_prev,t_present;
+        list<string> m;
+        const char delim=',';
         cout<<"Enter first file name\n";
         cin>>FirstFile;
         cout<<"Enter output file name\n";
@@ -53,13 +57,7 @@ int main(){
         ifstream MyReadFile(FirstFile.c_str());
         ifstream MyReadFile1(FirstFile.c_str());
         ofstream ob(output.c_str());
-        double t_prev;
-        list<string> m;
-        int n;
         m.push_back("0");
-        double t_present;
-        const char delim=',';
-        string myText,myText1;
         while(1){
                 int i=0;
                 vector<string> token;
@@ -94,20 +92,18 @@ int main(){
                                  if(MyReadFile1.eof()){
                                            break;
                                 }
-                                        if(token1[1].compare(m.back())==0){
-                                                t_present=time_sec(token1[0]);
-                                                if(t_present-t_prev>=1){
-                                                        ob<<myText1;
-                                                        ob<<"\n";
-
-                                                }
-                                        }
-                                        else{
-                                                continue;
-                                        }
-                                        t_prev=t_present;
-                                        token1.clear();
-
+                                 if(token1[1].compare(m.back())==0){
+                                         t_present=time_sec(token1[0]);
+                                         if(t_present-t_prev>=1){
+                                                   		ob<<myText1;
+                                                        	ob<<"\n";
+                                          }
+                                }
+                                else{
+                                     continue;
+                                }
+                                t_prev=t_present;
+                                token1.clear();
                         }
                         MyReadFile1.clear();
                         MyReadFile1.seekg(0);
@@ -117,5 +113,3 @@ int main(){
         ob.close();
         return 0;
 }
-                                         
-
